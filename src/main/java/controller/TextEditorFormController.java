@@ -16,10 +16,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Optional;
@@ -66,24 +63,26 @@ public class TextEditorFormController {
                 if(fileName.contains(".dep9")){
                     try {
                         FileInputStream fis = new FileInputStream(file);
-                        byte[] bytes = fis.readAllBytes();
+                        BufferedInputStream bis = new BufferedInputStream(fis);
+                        byte[] bytes = bis.readAllBytes();
 
                         for (int i = 0; i < bytes.length; i++) {
                             bytes[i] = (byte) (bytes[i] ^ 0B1111_1111);
                         }
                         String content = new String(bytes);
                         txtEditor.setText(content);
-                        fis.close();
+                        bis.close();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }else{
                     try {
                         FileInputStream fis = new FileInputStream(file);
-                        byte[] bytes = fis.readAllBytes();
+                        BufferedInputStream bis = new BufferedInputStream(fis);
+                        byte[] bytes = bis.readAllBytes();
                         String content = new String(bytes);
                         txtEditor.setText(content);
-                        fis.close();
+                        bis.close();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -111,11 +110,12 @@ public class TextEditorFormController {
                     }
                     byte[] bytes = txtEditor.getText().getBytes();
                     FileOutputStream fos = new FileOutputStream(savedFile);
+                    BufferedOutputStream bos = new BufferedOutputStream(fos);
                     for (int i = 0; i < bytes.length; i++) {
                         bytes[i] = (byte) (bytes[i] ^ 0B1111_1111);
                     }
-                    fos.write(bytes);
-                    fos.close();
+                    bos.write(bytes);
+                    bos.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
