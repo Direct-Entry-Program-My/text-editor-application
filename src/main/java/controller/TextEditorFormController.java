@@ -41,12 +41,10 @@ public class TextEditorFormController {
     private Clipboard clipboard;
     private ClipboardContent clipboardContent;
 
-
     public void initialize() {
 
         clipboard = Clipboard.getSystemClipboard();
         clipboardContent = new ClipboardContent();
-
 
         mnuNew.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -61,18 +59,34 @@ public class TextEditorFormController {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
-                        "Text files (*.txt)", "*.txt", ".dep9"));
+                        "Text files(*.txt)/(*.dep9)", "*.dep9", "*.txt"));
                 File file = fileChooser.showOpenDialog(txtEditor.getScene().getWindow());
 
+                String fileName = file.getName();
+                if(fileName.contains(".dep9")){
+                    try {
+                        FileInputStream fis = new FileInputStream(file);
+                        byte[] bytes = fis.readAllBytes();
 
-                try {
-                    FileInputStream fis = new FileInputStream(file);
-                    byte[] bytes = fis.readAllBytes();
-                    String content = new String(bytes);
-                    txtEditor.setText(content);
-                    fis.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                        for (int i = 0; i < bytes.length; i++) {
+                            bytes[i] = (byte) (bytes[i] ^ 0B1111_1111);
+                        }
+                        String content = new String(bytes);
+                        txtEditor.setText(content);
+                        fis.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }else{
+                    try {
+                        FileInputStream fis = new FileInputStream(file);
+                        byte[] bytes = fis.readAllBytes();
+                        String content = new String(bytes);
+                        txtEditor.setText(content);
+                        fis.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
@@ -82,16 +96,12 @@ public class TextEditorFormController {
             public void handle(ActionEvent actionEvent) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Save Text File");
-                fileChooser.setInitialFileName("text-editor.txt");
+                fileChooser.setInitialFileName("text-editor.dep9");
                 fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
                 fileChooser.getExtensionFilters()
-                        .add(new FileChooser.ExtensionFilter("Text files (*.dep9)", "*.*"));
-
+                        .add(new FileChooser.ExtensionFilter("Text files (*.dep9)", "*.dep9"));
                 File saveLocation = fileChooser.showSaveDialog(txtEditor.getScene().getWindow());
-                System.out.println(saveLocation);
-
                 File savedFile = new File(String.valueOf(saveLocation));
-                System.out.println(savedFile);
                 try {
                     if (!savedFile.exists()) {
                         savedFile.createNewFile();
@@ -101,6 +111,9 @@ public class TextEditorFormController {
                     }
                     byte[] bytes = txtEditor.getText().getBytes();
                     FileOutputStream fos = new FileOutputStream(savedFile);
+                    for (int i = 0; i < bytes.length; i++) {
+                        bytes[i] = (byte) (bytes[i] ^ 0B1111_1111);
+                    }
                     fos.write(bytes);
                     fos.close();
                 } catch (IOException e) {
