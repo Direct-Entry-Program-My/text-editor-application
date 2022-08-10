@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: rgba(0,0,0,0);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SplashFormController">
+   <children>
+      <AnchorPane layoutX="229.0" layoutY="252.0" prefHeight="200.0" prefWidth="185.0" style="-fx-background-color: white;">
+         <children>
+            <ImageView fitHeight="123.0" fitWidth="145.0" layoutX="20.0" layoutY="14.0">
+               <image>
+                  <Image url="@../images/TextEditorImage.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblStatus" alignment="CENTER" layoutX="21.0" layoutY="162.0" prefHeight="18.0" prefWidth="145.0" text="Loading..." />
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="257.0" fitWidth="250.0" layoutX="198.0" layoutY="30.0">
+         <image>
+            <Image url="@../images/splash3.gif" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

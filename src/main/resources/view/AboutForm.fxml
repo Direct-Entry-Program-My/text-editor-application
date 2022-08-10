@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="anchrPaneAbout" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AboutFormController">
+   <children>
+      <ImageView fx:id="imgLogo" fitHeight="221.0" fitWidth="246.0" layoutX="177.0" layoutY="14.0">
+         <image>
+            <Image url="@../images/TextEditorImage.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="242.0" layoutY="247.0" text="by Eranga Bandara" />
+      <Label layoutX="283.0" layoutY="275.0" text="v0.2.0" />
+   </children>
+</AnchorPane>
